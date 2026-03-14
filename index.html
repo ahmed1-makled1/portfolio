@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahmed Makled | Flutter Developer</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS Variables & Theming (Light Beige) --- */
+        :root {
+            --bg-main: #f5f1e8;
+            /* Soft beige background */
+            --bg-surface: #ffffff;
+            /* White cards/surface */
+            --primary: #c8a97e;
+            /* Warm beige / sand accent */
+            --primary-hover: #b3946a;
+            /* Slightly darker sand for hover */
+            --text-main: #2c2c2c;
+            /* Dark gray for primary text */
+            --text-muted: #5a5a5a;
+            /* Medium gray for secondary text */
+            --border-color: #e8e0d0;
+            /* Light border for cards */
+            --transition: all 0.3s ease;
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        /* --- Dark mode override --- */
+        .dark-mode {
+            --bg-main: #1a1a1a;
+            --bg-surface: #2d2d2d;
+            --primary: #d4b28c;
+            /* lighter beige for contrast */
+            --primary-hover: #e0c09c;
+            --text-main: #f0f0f0;
+            --text-muted: #b0b0b0;
+            --border-color: #3d3d3d;
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .dark-mode nav {
+            background: rgba(26, 26, 26, 0.95);
+        }
+
+        .dark-mode footer {
+            background: #2d2d2d;
+            border-top-color: #3d3d3d;
+        }
+
+        /* --- Global Reset & Typography --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+            /* Offset for sticky nav */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- Reusable Components --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 20px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3.5rem;
+            color: var(--text-main);
+            position: relative;
+            font-weight: 600;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 70px;
+            height: 4px;
+            background: var(--primary);
+            margin: 12px auto 0;
+            border-radius: 2px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: #ffffff;
+            box-shadow: 0 4px 10px rgba(200, 169, 126, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(200, 169, 126, 0.4);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: #ffffff;
+        }
+
+        /* --- Scroll Animation Classes --- */
+        .hidden {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(245, 241, 232, 0.95);
+            /* Matches beige background */
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
+            transition: background 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--text-main);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-main);
+        }
+
+        /* --- Dark mode toggle button --- */
+        #theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--text-main);
+            padding: 0 8px;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        #theme-toggle:hover {
+            color: var(--primary);
+        }
+
+        /* --- Hero Section --- */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+            margin-top: 40px;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary);
+            margin-bottom: 25px;
+            box-shadow: var(--shadow-sm);
+            background-color: var(--bg-surface);
+            /* fallback if image doesn't load immediately */
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 5px;
+            color: var(--text-main);
+        }
+
+        .hero-content h2 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .hero-content p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 35px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* --- About Section --- */
+        .about-text {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.15rem;
+            color: var(--text-muted);
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+        }
+
+        /* --- Grids --- */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+
+        /* --- Cards --- */
+        .card {
+            background: var(--bg-surface);
+            padding: 35px;
+            border-radius: 16px;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .card h3 {
+            color: var(--text-main);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.4rem;
+        }
+
+        .card h3 i {
+            color: var(--primary);
+        }
+
+        /* --- Skills Section --- */
+        .skill-list li {
+            margin-bottom: 12px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+        }
+
+        .skill-list li::before {
+            content: "▹";
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* --- Projects Section --- */
+        .project-card .tech-stack {
+            margin-top: 25px;
+            font-size: 0.95rem;
+            color: var(--primary);
+            font-weight: 600;
+            background: var(--bg-main);
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .project-card ul {
+            margin-top: 15px;
+            color: var(--text-muted);
+            padding-left: 20px;
+            list-style-type: disc;
+        }
+
+        .project-card ul li {
+            margin-bottom: 8px;
+        }
+
+        /* --- Experience & Education Timeline --- */
+        .timeline-item {
+            border-left: 2px solid var(--primary);
+            padding-left: 25px;
+            margin-bottom: 35px;
+            position: relative;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -9px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid var(--bg-surface);
+        }
+
+        .timeline-date {
+            font-size: 0.95rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .timeline-title {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .timeline-subtitle {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* --- Services Section --- */
+        .service-card {
+            text-align: center;
+        }
+
+        .service-card i {
+            font-size: 2.8rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            justify-content: center;
+            margin-bottom: 0;
+        }
+
+        /* --- Contact Section --- */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            background: var(--bg-surface);
+            padding: 50px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .contact-info h3 {
+            font-size: 1.8rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+        }
+
+        .contact-info p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .contact-item i {
+            color: var(--primary);
+            font-size: 1.5rem;
+            width: 30px;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: auto;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--bg-main);
+            color: var(--text-main);
+            font-size: 1.3rem;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(200, 169, 126, 0.3);
+        }
+
+        /* Contact Form */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(200, 169, 126, 0.15);
+        }
+
+        .dark-mode .contact-form input:focus,
+        .dark-mode .contact-form textarea:focus {
+            background-color: #3d3d3d;
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .contact-form button {
+            align-self: flex-start;
+            border: none;
+            width: 100%;
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: #ffffff;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            margin-top: 50px;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: var(--bg-surface);
+                padding: 20px;
+                text-align: center;
+                box-shadow: var(--shadow-lg);
+                border-top: 1px solid var(--border-color);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content h2 {
+                font-size: 1.2rem;
+            }
+
+            .profile-img {
+                width: 140px;
+                height: 140px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-wrapper {
+                padding: 30px 20px;
+            }
+
+            #theme-toggle {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo">AM.</div>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <button id="theme-toggle" aria-label="Toggle dark mode">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <div class="menu-toggle" id="mobile-menu">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header id="home">
+        <div class="container hero-content hidden">
+            <img src="profile.jpg" alt="Ahmed Makled Profile" class="profile-img">
+            <h1>Ahmed Makled</h1>
+            <h2>Flutter Mobile Application Developer</h2>
+            <p>Building scalable, high-performance cross-platform mobile apps.</p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-primary">View Projects</a>
+                <a href="#contact" class="btn btn-outline">Contact Me</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="about" class="container hidden">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-text">
+            <p>I’m a professional Flutter Mobile Developer specialized in building high-quality Android applications
+                using Flutter, Firebase, and REST APIs.</p>
+            <p>I focus on creating reliable real-world solutions through clean architecture and maintainable code. I
+                have built and maintained 100+ screens and 10+ production-ready applications from concept to deployment.
+            </p>
+            <p>I work with startups, individuals, and small teams to deliver scalable and user-friendly mobile
+                applications.</p>
+        </div>
+    </section>
+
+    <section id="skills" class="container hidden">
+        <h2 class="section-title">Skills & Tools</h2>
+        <div class="grid-3">
+            <div class="card">
+                <h3><i class="fa-solid fa-code"></i> Core Skills</h3>
+                <ul class="skill-list">
+                    <li>Flutter & Dart</li>
+                    <li>Provider / Bloc State Management</li>
+                    <li>Clean Architecture</li>
+                    <li>Android Development</li>
+                    <li>Responsive UI Design</li>
+                    <li>Performance Optimization</li>
+                    <li>REST API Integration</li>
+                    <li>Firebase (Auth + Firestore)</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3><i class="fa-solid fa-wrench"></i> Tools</h3>
+                <ul class="skill-list">
+                    <li>Git & GitHub</li>
+                    <li>VS Code</li>
+                    <li>Android Studio</li>
+                    <li>Postman</li>
+                    <li>SQLite & Hive</li>
+                    <li>SharedPreferences</li>
+                    <li>JSON APIs</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3><i class="fa-solid fa-users"></i> Soft Skills</h3>
+                <ul class="skill-list">
+                    <li>Problem Solving</li>
+                    <li>Communication</li>
+                    <li>Time Management</li>
+                    <li>Rapid Learning</li>
+                    <li>Teamwork & Independence</li>
+                    <li>Adaptability</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="container hidden">
+        <h2 class="section-title">Experience</h2>
+        <div class="card">
+            <div class="timeline-item">
+                <div class="timeline-date">07/2025 – Present</div>
+                <div class="timeline-title">Cross-Platform Mobile App Development</div>
+                <div class="timeline-subtitle">Digital Egypt Pioneers Initiative (DEPI) | Ministry of Communications and
+                    Information Technology</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">02/2026</div>
+                <div class="timeline-title">Cross-Platform Mobile App Development</div>
+                <div class="timeline-subtitle">National Telecommunication Institute (NTI)</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="container hidden">
+        <h2 class="section-title">Projects</h2>
+        <div class="grid-2">
+            <div class="card project-card">
+                <h3><i class="fa-solid fa-cloud-sun"></i> Weather App</h3>
+                <ul>
+                    <li>Search any city worldwide</li>
+                    <li>7-day weather forecast</li>
+                    <li>Clean responsive UI</li>
+                    <li>Multi-language support</li>
+                </ul>
+                <div class="tech-stack">Tech: Flutter, API Integration, Provider</div>
+            </div>
+            <div class="card project-card">
+                <h3><i class="fa-regular fa-newspaper"></i> News App</h3>
+                <ul>
+                    <li>Latest news from multiple sources</li>
+                    <li>Advanced search functionality</li>
+                    <li>WebView integration for articles</li>
+                </ul>
+                <div class="tech-stack">Tech: Flutter, REST APIs, Provider, WebView</div>
+            </div>
+            <div class="card project-card">
+                <h3><i class="fa-solid fa-clipboard-list"></i> Notes App</h3>
+                <ul>
+                    <li>Add, edit, and delete notes</li>
+                    <li>Organize notes by categories</li>
+                    <li>Secure offline storage</li>
+                </ul>
+                <div class="tech-stack">Tech: Flutter, Hive Database, Provider</div>
+            </div>
+            <div class="card project-card">
+                <h3><i class="fa-regular fa-comments"></i> Chat App</h3>
+                <ul>
+                    <li>User Authentication</li>
+                    <li>Real-time messaging</li>
+                    <li>Modern chat UI with message bubbles</li>
+                </ul>
+                <div class="tech-stack">Tech: Flutter, Firebase Firestore, Firebase Auth</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="container hidden">
+        <h2 class="section-title">Services</h2>
+        <div class="grid-3">
+            <div class="card service-card">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+                <h3>Mobile UI/UX Design</h3>
+            </div>
+            <div class="card service-card">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+                <h3>Flutter UI</h3>
+            </div>
+            <div class="card service-card">
+                <i class="fa-solid fa-layer-group"></i>
+                <h3>Clean Architecture</h3>
+            </div>
+            <div class="card service-card">
+                <i class="fa-solid fa-server"></i>
+                <h3>Backend Integration</h3>
+            </div>
+            <div class="card service-card">
+                <i class="fa-solid fa-gauge-high"></i>
+                <h3>Optimization</h3>
+            </div>
+            <div class="card service-card">
+                <i class="fa-solid fa-rocket"></i>
+                <h3>App Deployment</h3>
+            </div>
+        </div>
+    </section>
+
+    <section id="education" class="container hidden">
+        <h2 class="section-title">Education</h2>
+        <div class="card">
+            <div class="timeline-item">
+                <div class="timeline-date">2022 – 2026</div>
+                <div class="timeline-title">B.Sc. of Information Technology</div>
+                <div class="timeline-subtitle">Computer Science & Artificial Intelligence | Damietta University</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="container hidden">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-wrapper">
+            <div class="contact-info">
+                <div>
+                    <h3>Let's talk!</h3>
+                    <p>Discuss a project or just want to say hi? My inbox is open.</p>
+                </div>
+
+                <div class="contact-item">
+                    <i class="fa-solid fa-phone"></i>
+                    <span>+201009269051</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <a href="mailto:ahmed1.makled1@gmail.com">ahmed1.makled1@gmail.com</a>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/ahmed1makled1/" target="_blank" aria-label="LinkedIn"><i
+                            class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="https://github.com/Ahmed-Makled1" target="_blank" aria-label="GitHub"><i
+                            class="fa-brands fa-github"></i></a>
+                </div>
+            </div>
+            <form action="https://formspree.io/f/xjgaolnd" method="POST" class="contact-form">
+
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Your Email" required>
+                </div>
+
+                <div class="form-group">
+                    <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Send Message
+                </button>
+
+            </form>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Ahmed Makled. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when a link is clicked
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Intersection Observer for Scroll Animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all hidden elements
+        const hiddenElements = document.querySelectorAll('.hidden');
+        hiddenElements.forEach((el) => observer.observe(el));
+
+        // 🌙 Dark mode toggle with localStorage
+        const themeToggle = document.getElementById('theme-toggle');
+        const icon = themeToggle.querySelector('i');
+
+        // Function to set theme
+        function setDarkMode(isDark) {
+            if (isDark) {
+                document.body.classList.add('dark-mode');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                document.body.classList.remove('dark-mode');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+            localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
+        }
+
+        // Check saved preference
+        const savedMode = localStorage.getItem('darkMode');
+        if (savedMode === 'enabled') {
+            setDarkMode(true);
+        }
+
+        // Toggle on button click
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.body.classList.contains('dark-mode');
+            setDarkMode(!isDark);
+        });
+    </script>
+</body>
+
+</html>
