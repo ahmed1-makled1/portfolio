@@ -188,13 +188,13 @@ Edit the CSS variables in `index.html`:
 
 ```css
 :root {
-    --bg-main: #f5f1e8;        /* Main background */
-    --bg-surface: #ffffff;     /* Card/surface background */
-    --primary: #c8a97e;         /* Primary accent color */
-    --primary-hover: #b3946a;   /* Hover color */
-    --text-main: #2c2c2c;       /* Main text color */
-    --text-muted: #5a5a5a;      /* Muted text color */
-    --border-color: #e8e0d0;   /* Border color */
+   --bg-main: #f6f9fc;        /* Main background */
+   --bg-surface: #ffffff;        /* Card/surface background */
+   --primary: #2563eb;        /* Primary accent color */
+   --primary-hover: #1d4ed8;        /* Hover color */
+   --text-main: #0f172a;         /* Main text color */
+   --text-muted: #475569;        /* Muted text color */
+   --border-color: #dbe4f0;         /* Border color */
 }
 ```
 

@@ -441,7 +441,7 @@ const Renderers = (() => {
         // Check if freelance platforms section exists, if not create it
         let freelanceSection = document.getElementById('freelance');
         if (!freelanceSection) {
-            const servicesSection = document.getElementById('services');
+            const anchorSection = document.getElementById('certificates') || document.getElementById('projects') || document.getElementById('services');
             const newSection = document.createElement('section');
             newSection.id = 'freelance';
             newSection.className = 'container hidden';
@@ -449,7 +449,7 @@ const Renderers = (() => {
                 <h2 class="section-title">Freelance Platforms</h2>
                 <div class="grid-3 freelance-grid"></div>
             `;
-            servicesSection.parentNode.insertBefore(newSection, null);
+            anchorSection.parentNode.insertBefore(newSection, anchorSection.nextSibling);
             freelanceSection = newSection;
         }
 
@@ -572,25 +572,26 @@ const Renderers = (() => {
      * @param {Array} socialLinks - Social links data
      */
     function renderNavigation(socialLinks) {
-        // Add freelance platforms link if data exists
         const navLinks = document.querySelector('.nav-links');
-        if (navLinks && document.getElementById('freelance')) {
+
+        // Add certificates link after Projects if data exists
+        if (navLinks && document.getElementById('certificates')) {
             const projectsLink = navLinks.querySelector('a[href="#projects"]');
-            if (projectsLink && !navLinks.querySelector('a[href="#freelance"]')) {
-                const freelanceLink = document.createElement('li');
-                freelanceLink.innerHTML = '<a href="#freelance">Freelance</a>';
-                projectsLink.parentNode.insertBefore(freelanceLink, projectsLink.nextSibling);
+            if (projectsLink && !navLinks.querySelector('a[href="#certificates"]')) {
+                const certificatesLink = document.createElement('li');
+                certificatesLink.innerHTML = '<a href="#certificates">Certificates</a>';
+                navLinks.insertBefore(certificatesLink, projectsLink.parentElement.nextSibling);
             }
         }
 
-        // Add certificates link if data exists
-        if (navLinks && document.getElementById('certificates')) {
-            const freelanceLink = navLinks.querySelector('a[href="#freelance"]');
-            const target = freelanceLink || navLinks.querySelector('a[href="#projects"]');
-            if (target && !navLinks.querySelector('a[href="#certificates"]')) {
-                const certificatesLink = document.createElement('li');
-                certificatesLink.innerHTML = '<a href="#certificates">Certificates</a>';
-                target.parentNode.insertBefore(certificatesLink, target.nextSibling);
+        // Add freelance platforms link after Certificates if data exists
+        if (navLinks && document.getElementById('freelance')) {
+            const certificatesLink = navLinks.querySelector('a[href="#certificates"]');
+            const target = certificatesLink || navLinks.querySelector('a[href="#projects"]');
+            if (target && !navLinks.querySelector('a[href="#freelance"]')) {
+                const freelanceLink = document.createElement('li');
+                freelanceLink.innerHTML = '<a href="#freelance">Freelance</a>';
+                navLinks.insertBefore(freelanceLink, target.parentElement.nextSibling);
             }
         }
     }
