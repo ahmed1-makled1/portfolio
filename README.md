@@ -24,15 +24,15 @@ portfolio/
 │   ├── certificates/    # Certificate images
 │   └── projects/        # Project screenshots
 ├── data/                # Excel/CSV data files
-│   ├── profile.csv
-│   ├── skills.csv
-│   ├── experience.csv
-│   ├── education.csv
-│   ├── services.csv
-│   ├── freelance-platforms.csv
-│   ├── certificates.csv
-│   ├── social-links.csv
-│   └── projects.csv
+│   ├── profile.xlsx
+│   ├── skills.xlsx
+│   ├── experience.xlsx
+│   ├── education.xlsx
+│   ├── services.xlsx
+│   ├── freelance-platforms.xlsx
+│   ├── certificates.xlsx
+│   ├── social-links.xlsx
+│   └── projects.xlsx
 ├── js/
 │   ├── data-loader.js   # SheetJS data parsing
 │   ├── renderers.js     # Dynamic rendering functions
@@ -151,8 +151,8 @@ Project portfolio with flip cards.
 
 1. **Replace Data Files**
    - Open the `/data` folder
-   - Edit the CSV files with your information
-   - You can open CSV files in Excel, Google Sheets, or any spreadsheet editor
+   - Edit the XLSX files with your information
+   - You can open them directly in Excel or Google Sheets
    - Save your changes
 
 2. **Replace Assets**
@@ -160,7 +160,7 @@ Project portfolio with flip cards.
    - Place your CV in `/assets/cv/`
    - Place certificate images in `/assets/certificates/`
    - Place project screenshots in `/assets/projects/`
-   - Update the paths in the CSV files to match your file names
+   - Update the paths in the XLSX files to match your file names
 
 3. **Deploy**
    - Upload the entire folder to any web host (GitHub Pages, Netlify, Vercel, etc.)
@@ -173,7 +173,7 @@ Project portfolio with flip cards.
 2. **Local Development**
    - Use a local server (e.g., `python -m http.server` or VS Code Live Server)
    - Open `index.html` in your browser
-   - The portfolio will load data from CSV files
+   - The portfolio will load data from Excel files first, and from CSV files if needed
 
 3. **Customization**
    - Edit CSS variables in `index.html` to change colors
@@ -273,16 +273,12 @@ Special handling:
 
 ### CSV vs Excel
 
-The template uses CSV files by default because:
-- Easier to edit in any text editor
-- Smaller file size
-- Universal compatibility
+The template now uses Excel (.xlsx) files by default because:
+- Easier to edit in Excel
+- Better support for columns and formatting
+- Works smoothly with spreadsheets and Excel
 
-**To use Excel (.xlsx) files instead:**
-1. Open CSV in Excel
-2. Save as .xlsx
-3. Update the filename in `data-loader.js` from `.csv` to `.xlsx`
-4. SheetJS handles both formats automatically
+The loader also remains compatible with CSV files if you still prefer them.
 
 ## 🚀 Deployment Options
 

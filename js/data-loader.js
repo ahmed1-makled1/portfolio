@@ -24,17 +24,30 @@ const DataLoader = (() => {
      */
     async function loadFile(filename) {
         try {
-            const response = await fetch(`data/${filename}`);
-            if (!response.ok) {
-                console.warn(`File not found: ${filename}`);
-                return null;
+            const candidates = [];
+            if (filename.toLowerCase().endsWith('.csv')) {
+                candidates.push(filename.replace(/\.csv$/i, '.xlsx'));
+                candidates.push(filename);
+            } else {
+                candidates.push(filename);
             }
-            const arrayBuffer = await response.arrayBuffer();
-            const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-            const firstSheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[firstSheetName];
-            const jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: false, defval: '' });
-            return jsonData;
+
+            for (const candidate of candidates) {
+                const response = await fetch(`data/${candidate}`);
+                if (!response.ok) {
+                    continue;
+                }
+
+                const arrayBuffer = await response.arrayBuffer();
+                const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: false, defval: '' });
+                return jsonData;
+            }
+
+            console.warn(`File not found: ${filename}`);
+            return null;
         } catch (error) {
             console.error(`Error loading ${filename}:`, error);
             return null;

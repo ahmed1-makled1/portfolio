@@ -1,7 +1,0 @@
-﻿ServiceName,IconClass,Description
-Mobile UI/UX Design,fa-solid fa-mobile-screen-button,Design intuitive and engaging mobile user interfaces with focus on user experience and accessibility.
-Flutter UI,fa-solid fa-mobile-screen-button,"Build beautiful, responsive Flutter UI components following Material Design guidelines."
-Clean Architecture,fa-solid fa-layer-group,Implement scalable and maintainable app architecture using clean code principles and design patterns.
-Backend Integration,fa-solid fa-server,"Integrate REST APIs, Firebase, and third-party services seamlessly into mobile applications."
-Optimization,fa-solid fa-gauge-high,"Optimize app performance, reduce build times, and improve memory management for smooth user experience."
-App Deployment,fa-solid fa-rocket,Handle complete app deployment process including Play Store and App Store submission and maintenance.
