@@ -229,7 +229,7 @@ const Renderers = (() => {
             }
 
             return `
-                <div class="project-flip-card">
+                <div class="project-flip-card" role="button" tabindex="0" aria-label="View project details">
                     <div class="project-card-inner">
                         <!-- Front Side -->
                         <div class="project-card-front">
@@ -271,8 +271,20 @@ const Renderers = (() => {
     function initFlipCards() {
         const flipCards = document.querySelectorAll('.project-flip-card');
         flipCards.forEach(card => {
-            card.addEventListener('click', () => {
+            const toggleCard = () => {
                 card.classList.toggle('flipped');
+                card.setAttribute('aria-pressed', card.classList.contains('flipped') ? 'true' : 'false');
+            };
+
+            card.addEventListener('click', (event) => {
+                if (event.target.closest('a')) return;
+                toggleCard();
+            });
+
+            card.addEventListener('keydown', (event) => {
+                if (event.key !== 'Enter' && event.key !== ' ') return;
+                event.preventDefault();
+                toggleCard();
             });
         });
     }
@@ -331,7 +343,7 @@ const Renderers = (() => {
                 <div class="lightbox-content">
                     <button class="lightbox-close">&times;</button>
                     <button class="lightbox-zoom-in"><i class="fa-solid fa-search-plus"></i></button>
-                    <button class="lightbox-zoom-out"><i class="fa-solid fa-search-minus"></i>
+                    <button class="lightbox-zoom-out"><i class="fa-solid fa-search-minus"></i></button>
                     <img src="" alt="" class="lightbox-image">
                     <div class="lightbox-caption"></div>
                 </div>

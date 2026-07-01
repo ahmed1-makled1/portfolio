@@ -612,12 +612,13 @@
         .project-flip-card {
             perspective: 1000px;
             cursor: pointer;
+            height: 560px;
         }
 
         .project-card-inner {
             position: relative;
             width: 100%;
-            height: 100%;
+            height: 560px;
             transition: transform 0.6s;
             transform-style: preserve-3d;
         }
@@ -635,8 +636,18 @@
             -webkit-backface-visibility: hidden;
         }
 
+        .project-card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
         .project-card-back {
             transform: rotateY(180deg);
+        }
+
+        .project-card-back .project-card {
+            overflow-y: auto;
         }
 
         .project-image {
@@ -695,7 +706,8 @@
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-top: 20px;
+            margin-top: auto;
+            padding-top: 20px;
         }
 
         .project-buttons .btn {
@@ -719,20 +731,24 @@
             backdrop-filter: blur(10px);
             justify-content: center;
             align-items: center;
+            padding: 24px;
         }
 
         .lightbox-content {
             position: relative;
-            max-width: 90%;
-            max-height: 90%;
+            width: 100%;
+            height: 100%;
+            max-width: 100vw;
+            max-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
         }
 
         .lightbox-image {
-            max-width: 100%;
-            max-height: 80vh;
+            max-width: calc(100vw - 48px);
+            max-height: calc(100vh - 120px);
             object-fit: contain;
             border-radius: 8px;
             transition: transform 0.3s ease;
@@ -740,7 +756,7 @@
 
         .lightbox-close {
             position: absolute;
-            top: -50px;
+            top: 0;
             right: 0;
             color: white;
             font-size: 40px;
@@ -758,7 +774,7 @@
         .lightbox-zoom-in,
         .lightbox-zoom-out {
             position: absolute;
-            bottom: -50px;
+            bottom: 10px;
             color: white;
             font-size: 24px;
             cursor: pointer;
@@ -788,7 +804,7 @@
 
         .lightbox-caption {
             color: white;
-            margin-top: 20px;
+            margin-top: 14px;
             font-size: 1.1rem;
             text-align: center;
         }
@@ -837,6 +853,22 @@
             line-height: 1.5;
         }
 
+
+        @media (max-width: 768px) {
+            .project-flip-card,
+            .project-card-inner {
+                height: 640px;
+            }
+
+            .lightbox {
+                padding: 12px;
+            }
+
+            .lightbox-image {
+                max-width: calc(100vw - 24px);
+                max-height: calc(100vh - 110px);
+            }
+        }
         /* --- Freelance Platform Cards --- */
         .freelance-card {
             text-align: center;
