@@ -11,56 +11,18 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/theme.css">
 
     <!-- SheetJS for Excel/CSV parsing -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
     <style>
-        /* --- CSS Variables & Theming (Professional Blue) --- */
-        :root {
-            --bg-main: #eef5ff;
-            --bg-surface: #ffffff;
-            --bg-elevated: #dceafe;
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --primary-rgb: 37, 99, 235;
-            --text-main: #0f172a;
-            --text-muted: #475569;
-            --border-color: #dbe4f0;
-            --transition: all 0.3s ease;
-            --shadow-sm: 0 6px 16px rgba(15, 23, 42, 0.06);
-            --shadow-lg: 0 18px 38px rgba(15, 23, 42, 0.12);
-        }
-
-        /* --- Dark mode override --- */
-        .dark-mode {
-            --bg-main: #0b1120;
-            --bg-surface: #111827;
-            --bg-elevated: #172033;
-            --primary: #60a5fa;
-            --primary-hover: #93c5fd;
-            --primary-rgb: 96, 165, 250;
-            --text-main: #f8fafc;
-            --text-muted: #cbd5e1;
-            --border-color: #243044;
-            --shadow-sm: 0 8px 18px rgba(0, 0, 0, 0.28);
-            --shadow-lg: 0 22px 46px rgba(0, 0, 0, 0.42);
-        }
-
-        .dark-mode nav {
-            background: rgba(11, 17, 32, 0.92);
-        }
-
-        .dark-mode footer {
-            background: #111827;
-            border-top-color: #243044;
-        }
-
-        /* --- Global Reset & Typography --- */
+        /* --- Typography & Global resets --- */
         * {
             margin: 0;
             padding: 0;
@@ -75,10 +37,20 @@
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--bg-main);
+            background-image: var(--bg-gradient);
+            background-attachment: fixed;
             color: var(--text-main);
             line-height: 1.6;
             overflow-x: hidden;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .section-title {
+            font-family: 'Outfit', sans-serif;
         }
 
         ul {
@@ -90,53 +62,110 @@
             color: inherit;
         }
 
+        /* --- Decorative Background Blobs --- */
+        .bg-blob {
+            position: absolute;
+            width: 45vw;
+            height: 45vw;
+            max-width: 600px;
+            max-height: 600px;
+            border-radius: 50%;
+            filter: blur(140px);
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.7;
+            animation: float-blobs 25s infinite alternate ease-in-out;
+        }
+
+        .blob-1 {
+            top: 5%;
+            left: -15%;
+            background: var(--bg-blob-color-1);
+        }
+
+        .blob-2 {
+            top: 45%;
+            right: -15%;
+            background: var(--bg-blob-color-2);
+            animation-delay: -7s;
+        }
+
+        .blob-3 {
+            bottom: 5%;
+            left: 10%;
+            background: var(--bg-blob-color-1);
+            animation-delay: -14s;
+        }
+
+        @keyframes float-blobs {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(40px, -60px) scale(1.15);
+            }
+
+            100% {
+                transform: translate(-30px, 30px) scale(0.9);
+            }
+        }
+
         /* --- Reusable Components --- */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 100px 20px;
+            position: relative;
         }
 
         .section-title {
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
             text-align: center;
             margin-bottom: 3.5rem;
-            color: var(--text-main);
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             position: relative;
-            font-weight: 600;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .section-title::after {
             content: '';
             display: block;
-            width: 70px;
-            height: 4px;
-            background: var(--primary);
+            width: 60px;
+            height: 5px;
+            background: var(--accent-gradient);
             margin: 12px auto 0;
-            border-radius: 2px;
+            border-radius: 10px;
         }
 
         .btn {
             display: inline-block;
             padding: 12px 32px;
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
             border: 2px solid transparent;
             font-size: 1rem;
+            text-align: center;
         }
 
         .btn-primary {
-            background-color: var(--primary);
+            background: var(--accent-gradient);
             color: #ffffff;
-            box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.22);
+            border: none;
+            box-shadow: 0 10px 22px rgba(var(--primary-rgb), 0.18);
         }
 
         .btn-primary:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 26px rgba(var(--primary-rgb), 0.28);
+            opacity: 0.95;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(var(--primary-rgb), 0.28);
         }
 
         .btn-outline {
@@ -148,13 +177,15 @@
         .btn-outline:hover {
             background-color: var(--primary);
             color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(var(--primary-rgb), 0.15);
         }
 
         /* --- Scroll Animation Classes --- */
         .hidden {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
+            transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .show {
@@ -165,13 +196,16 @@
         /* --- Navigation --- */
         nav {
             position: fixed;
+            animation: navSlideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             top: 0;
             width: 100%;
-            background: rgba(238, 245, 255, 0.94);
-            backdrop-filter: blur(10px);
+            background: var(--bg-surface);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
             box-shadow: var(--shadow-sm);
-            transition: background 0.3s ease;
+            transition: var(--transition);
         }
 
         .nav-container {
@@ -181,7 +215,7 @@
             justify-content: space-between;
             align-items: center;
             gap: 18px;
-            padding: 16px 20px;
+            padding: 18px 20px;
         }
 
         .nav-actions {
@@ -200,7 +234,7 @@
             align-items: center;
             justify-content: center;
             flex-wrap: nowrap;
-            gap: clamp(0.75rem, 1.45vw, 1.5rem);
+            gap: clamp(0.75rem, 1.45vw, 1.8rem);
         }
 
         .nav-links li {
@@ -210,13 +244,31 @@
         .nav-links a {
             white-space: nowrap;
             font-size: clamp(0.86rem, 0.9vw, 1rem);
-            font-weight: 500;
+            font-weight: 550;
             color: var(--text-main);
+            position: relative;
+            padding: 8px 0;
             transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+            transform: translateX(-50%);
         }
 
         .nav-links a:hover {
             color: var(--primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
         }
 
         .menu-toggle {
@@ -224,9 +276,13 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--text-main);
+            transition: var(--transition);
         }
 
-        /* --- Dark mode toggle button --- */
+        .menu-toggle:hover {
+            color: var(--primary);
+        }
+
         #theme-toggle {
             background: none;
             border: none;
@@ -234,13 +290,14 @@
             cursor: pointer;
             color: var(--text-main);
             padding: 0 8px;
-            transition: color 0.3s ease;
+            transition: var(--transition);
             display: flex;
             align-items: center;
         }
 
         #theme-toggle:hover {
             color: var(--primary);
+            transform: rotate(15deg);
         }
 
         /* --- Hero Section --- */
@@ -249,51 +306,107 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 90px 20px 40px;
+            padding: 85px 20px 35px; /* Reduced padding to lift content up */
             margin-top: 0;
+            overflow: hidden;
         }
 
         .hero-content {
             width: 100%;
             display: grid;
-            grid-template-columns: minmax(0, 1.1fr) minmax(260px, 0.9fr);
+            grid-template-columns: minmax(0, 1.15fr) minmax(260px, 0.85fr);
             align-items: center;
             gap: 60px;
             text-align: left;
         }
 
-        .profile-img {
+        .profile-img-container {
             grid-column: 2;
-            grid-row: 1 / span 4;
+            grid-row: 1; /* Both items in row 1 for perfect vertical alignment */
             justify-self: end;
-            width: min(360px, 34vw);
-            height: min(360px, 34vw);
+            position: relative;
+            transform: translateY(-50px); /* Raise the image further to align with text center */
+            opacity: 0;
+            animation: heroImgEntry 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+        }
+
+        .profile-img-container::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            z-index: -1;
+            opacity: 0.4;
+            filter: blur(8px);
+            animation: pulse-ring 4s infinite alternate;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.98);
+                opacity: 0.3;
+            }
+
+            100% {
+                transform: scale(1.03);
+                opacity: 0.5;
+            }
+        }
+
+        .profile-img {
+            width: min(410px, 38vw); /* Increased size of profile image */
+            height: min(410px, 38vw);
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid var(--primary);
+            border: 6px solid var(--bg-surface);
+            outline: 1px solid var(--border-color);
             margin-bottom: 0;
             box-shadow: var(--shadow-lg);
             background-color: var(--bg-surface);
+            transition: var(--transition);
         }
 
-        .hero-content h1 {
-            font-size: 3.5rem;
-            margin-bottom: 5px;
-            color: var(--text-main);
+        .profile-img:hover {
+            transform: scale(1.03) rotate(2deg);
+            outline-color: var(--primary);
         }
 
-        .hero-content h2 {
-            font-size: 1.5rem;
+        .hero-text-content {
+            grid-column: 1;
+            grid-row: 1; /* Explicitly in row 1 */
+            transform: translateY(-20px); /* Move text content up */
+            opacity: 0;
+            animation: heroTextEntry 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .hero-text-content h1 {
+            font-size: clamp(2.5rem, 5vw, 4.2rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 8px; /* Reduced margin */
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1.5px;
+        }
+
+        .hero-text-content h2 {
+            font-size: clamp(1.2rem, 2vw, 1.8rem);
             color: var(--primary);
-            margin-bottom: 20px;
-            font-weight: 500;
+            margin-bottom: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
-        .hero-content p {
+        .hero-text-content p {
             font-size: 1.15rem;
             color: var(--text-muted);
             max-width: 660px;
-            margin: 0 0 35px;
+            margin: 0 0 24px;
         }
 
         .hero-buttons {
@@ -305,15 +418,16 @@
 
         /* --- About Section --- */
         .about-text {
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto;
             text-align: center;
             font-size: 1.15rem;
             color: var(--text-muted);
+            line-height: 1.8;
         }
 
         .about-text p {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         /* --- Grids --- */
@@ -332,16 +446,18 @@
         /* --- Cards --- */
         .card {
             background: var(--bg-surface);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             padding: 35px;
-            border-radius: 16px;
+            border-radius: var(--radius-md);
             transition: var(--transition);
             border: 1px solid var(--border-color);
             box-shadow: var(--shadow-sm);
         }
 
         .card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: var(--shadow-lg), 0 12px 30px rgba(var(--primary-rgb), 0.08);
             border-color: var(--primary);
         }
 
@@ -352,6 +468,7 @@
             align-items: center;
             gap: 12px;
             font-size: 1.4rem;
+            font-weight: 650;
         }
 
         .card h3 i {
@@ -360,88 +477,115 @@
 
         /* --- Skills Section --- */
         .skill-list li {
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             color: var(--text-muted);
             display: flex;
             align-items: center;
             gap: 12px;
             font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .skill-list li:hover {
+            color: var(--text-main);
+            transform: translateX(4px);
         }
 
         .skill-list li::before {
-            content: "▹";
+            content: "✦";
             color: var(--primary);
-            font-weight: bold;
+            font-size: 0.9rem;
         }
 
         /* --- Experience & Education Timeline --- */
         .timeline-item {
-            border-left: 2px solid var(--primary);
-            padding-left: 25px;
-            margin-bottom: 35px;
+            border-left: 2px dashed var(--primary);
+            padding-left: 30px;
+            margin-bottom: 40px;
             position: relative;
+            transition: var(--transition);
         }
 
         .timeline-item:last-child {
             margin-bottom: 0;
+            border-left-color: transparent;
         }
 
         .timeline-item::before {
             content: '';
             position: absolute;
             left: -9px;
-            top: 5px;
+            top: 6px;
             width: 16px;
             height: 16px;
             border-radius: 50%;
             background: var(--primary);
             border: 3px solid var(--bg-surface);
+            transition: var(--transition);
+        }
+
+        .timeline-item:hover::before {
+            background: var(--accent);
+            transform: scale(1.3);
         }
 
         .timeline-date {
             font-size: 0.95rem;
             color: var(--primary);
             margin-bottom: 8px;
-            font-weight: 600;
+            font-weight: 700;
             letter-spacing: 0.5px;
         }
 
         .timeline-title {
-            font-size: 1.3rem;
-            margin-bottom: 5px;
+            font-size: 1.35rem;
+            margin-bottom: 6px;
             color: var(--text-main);
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .timeline-subtitle {
             color: var(--text-muted);
             font-weight: 500;
+            font-size: 1.05rem;
         }
 
         /* --- Services Section --- */
         .service-card {
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .service-card i {
-            font-size: 2.8rem;
+            font-size: 3rem;
             color: var(--primary);
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            transition: var(--transition);
+        }
+
+        .service-card:hover i {
+            transform: scale(1.15) rotate(5deg);
+            color: var(--accent);
         }
 
         .service-card h3 {
             justify-content: center;
-            margin-bottom: 0;
+            margin-bottom: 12px;
         }
 
         /* --- Contact Section --- */
         .contact-wrapper {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1.1fr;
             gap: 50px;
             background: var(--bg-surface);
-            padding: 50px;
-            border-radius: 16px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 55px;
+            border-radius: var(--radius-lg);
             box-shadow: var(--shadow-sm);
             border: 1px solid var(--border-color);
         }
@@ -453,9 +597,10 @@
         }
 
         .contact-info h3 {
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: var(--text-main);
             margin-bottom: 10px;
+            font-weight: 700;
         }
 
         .contact-info p {
@@ -469,16 +614,33 @@
             gap: 20px;
             font-size: 1.1rem;
             color: var(--text-main);
-            font-weight: 500;
+            font-weight: 550;
             word-break: break-word;
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            color: var(--primary);
+            transform: translateX(5px);
         }
 
         .contact-item i {
             color: var(--primary);
-            font-size: 1.5rem;
-            width: 30px;
-            text-align: center;
+            font-size: 1.6rem;
+            width: 35px;
+            height: 35px;
+            background: var(--bg-elevated);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .contact-item:hover i {
+            background: var(--primary);
+            color: #ffffff;
         }
 
         .social-links {
@@ -491,10 +653,10 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 45px;
-            height: 45px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            background: var(--bg-main);
+            background: var(--bg-elevated);
             color: var(--text-main);
             font-size: 1.3rem;
             transition: var(--transition);
@@ -502,18 +664,18 @@
         }
 
         .social-links a:hover {
-            background: var(--primary);
+            background: var(--accent-gradient);
             color: #ffffff;
-            border-color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.24);
+            border-color: transparent;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(var(--primary-rgb), 0.3);
         }
 
         /* Contact Form */
         .contact-form {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 22px;
         }
 
         .form-group {
@@ -524,10 +686,10 @@
         .contact-form input,
         .contact-form textarea {
             width: 100%;
-            padding: 15px;
+            padding: 16px;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background-color: var(--bg-main);
+            border-radius: var(--radius-sm);
+            background-color: var(--bg-elevated);
             color: var(--text-main);
             font-family: 'Poppins', sans-serif;
             font-size: 1rem;
@@ -539,12 +701,7 @@
             outline: none;
             border-color: var(--primary);
             background-color: var(--bg-surface);
-            box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.16);
-        }
-
-        .dark-mode .contact-form input:focus,
-        .dark-mode .contact-form textarea:focus {
-            background-color: var(--bg-elevated);
+            box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.15);
         }
 
         .contact-form textarea {
@@ -561,12 +718,14 @@
         /* --- Footer --- */
         footer {
             text-align: center;
-            padding: 30px;
+            padding: 40px;
             background: var(--bg-surface);
             color: var(--text-muted);
             border-top: 1px solid var(--border-color);
-            margin-top: 50px;
-            transition: background 0.3s ease, border-color 0.3s ease;
+            margin-top: 60px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            transition: var(--transition);
         }
 
         /* --- Responsive Design --- */
@@ -586,6 +745,8 @@
 
             .contact-wrapper {
                 grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 40px;
             }
         }
 
@@ -621,7 +782,9 @@
                 left: 0;
                 width: 100%;
                 background: var(--bg-surface);
-                padding: 18px;
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                padding: 20px;
                 gap: 0;
                 max-height: calc(100vh - 64px);
                 overflow-y: auto;
@@ -636,7 +799,7 @@
 
             .nav-links a {
                 display: block;
-                padding: 12px 0;
+                padding: 14px 0;
             }
 
             .menu-toggle {
@@ -647,45 +810,44 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                gap: 0;
+                gap: 20px;
                 text-align: center;
             }
 
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero-content h2 {
-                font-size: 1.2rem;
+            .profile-img-container {
+                order: -1;
+                justify-self: center;
             }
 
             .profile-img {
-                width: 140px;
-                height: 140px;
-                margin-bottom: 25px;
-                justify-self: auto;
+                width: 180px;
+                height: 180px;
+                margin-bottom: 0;
             }
 
-            .hero-content p {
-                margin: 0 auto 35px;
+            .hero-text-content h1 {
+                font-size: 2.6rem;
+            }
+
+            .hero-text-content h2 {
+                font-size: 1.3rem;
+            }
+
+            .hero-text-content p {
+                margin: 0 auto 30px;
             }
 
             .hero-buttons {
                 flex-direction: column;
                 width: 100%;
                 max-width: 300px;
-                justify-content: center;
+                margin: 0 auto;
             }
 
             .grid-2,
             .grid-3 {
                 grid-template-columns: minmax(0, 1fr);
-                gap: 22px;
-            }
-
-            .contact-wrapper {
-                padding: 30px 20px;
-                border-radius: 12px;
+                gap: 24px;
             }
 
             #theme-toggle {
@@ -704,7 +866,7 @@
             position: relative;
             width: 100%;
             height: 560px;
-            transition: transform 0.6s;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             transform-style: preserve-3d;
         }
 
@@ -739,8 +901,13 @@
             width: 100%;
             height: 200px;
             object-fit: cover;
-            border-radius: 12px;
+            border-radius: var(--radius-sm);
             margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .project-flip-card:hover .project-image {
+            transform: scale(1.02);
         }
 
         .tech-stack-badges {
@@ -751,12 +918,19 @@
         }
 
         .tech-badge {
-            background: var(--bg-main);
+            background: var(--bg-elevated);
             color: var(--primary);
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 600;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .tech-badge:hover {
+            background: var(--primary);
+            color: #ffffff;
         }
 
         .flip-hint {
@@ -765,6 +939,7 @@
             color: var(--text-muted);
             text-align: center;
             opacity: 0.7;
+            font-weight: 550;
         }
 
         .features-section {
@@ -775,6 +950,7 @@
             color: var(--text-main);
             margin-bottom: 10px;
             font-size: 1rem;
+            font-weight: 600;
         }
 
         .features-section ul {
@@ -812,8 +988,9 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(7, 9, 14, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             justify-content: center;
             align-items: center;
             padding: 24px;
@@ -835,7 +1012,7 @@
             max-width: calc(100vw - 48px);
             max-height: calc(100vh - 120px);
             object-fit: contain;
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             transition: transform 0.3s ease;
         }
 
@@ -849,11 +1026,12 @@
             cursor: pointer;
             background: none;
             border: none;
-            transition: color 0.3s ease;
+            transition: var(--transition);
         }
 
         .lightbox-close:hover {
             color: var(--primary);
+            transform: scale(1.1);
         }
 
         .lightbox-zoom-in,
@@ -871,12 +1049,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.3s ease;
+            transition: var(--transition);
         }
 
         .lightbox-zoom-in:hover,
         .lightbox-zoom-out:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.25);
+            color: var(--primary);
         }
 
         .lightbox-zoom-in {
@@ -890,8 +1069,10 @@
         .lightbox-caption {
             color: white;
             margin-top: 14px;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             text-align: center;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
         }
 
         /* --- Certificate Cards --- */
@@ -900,28 +1081,28 @@
             transition: var(--transition);
         }
 
-        .certificate-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
-        }
-
         .certificate-image {
             width: 100%;
             height: 180px;
             object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 15px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 18px;
+            transition: var(--transition);
+        }
+
+        .certificate-card:hover .certificate-image {
+            transform: scale(1.03);
         }
 
         .certificate-info h3 {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             margin-bottom: 8px;
             color: var(--text-main);
         }
 
         .certificate-issuer {
             color: var(--primary);
-            font-weight: 600;
+            font-weight: 700;
             font-size: 0.95rem;
         }
 
@@ -938,8 +1119,8 @@
             line-height: 1.5;
         }
 
-
         @media (max-width: 768px) {
+
             .project-flip-card,
             .project-card-inner {
                 height: 640px;
@@ -954,6 +1135,7 @@
                 max-height: calc(100vh - 110px);
             }
         }
+
         /* --- Freelance Platform Cards --- */
         .freelance-card {
             text-align: center;
@@ -964,47 +1146,16 @@
             height: 80px;
             object-fit: contain;
             margin: 0 auto 20px;
+            transition: var(--transition);
+        }
+
+        .freelance-card:hover .platform-logo {
+            transform: scale(1.1);
         }
 
         .freelance-card h3 {
             justify-content: center;
             margin-bottom: 0;
-        }
-
-        /* --- Loading State --- */
-        #loader {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-main);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        .loader-spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid var(--border-color);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .loader-text {
-            margin-top: 20px;
-            color: var(--text-muted);
-            font-size: 1.1rem;
         }
 
         /* --- Error Banner --- */
@@ -1014,11 +1165,13 @@
             top: 0;
             left: 0;
             width: 100%;
-            background: #ff4444;
+            background: #ef4444;
             color: white;
             padding: 15px;
             z-index: 10001;
             text-align: center;
+            box-shadow: var(--shadow-lg);
+            font-weight: 600;
         }
 
         .error-content {
@@ -1040,16 +1193,16 @@
 
             #home {
                 min-height: 92vh;
-                padding: 80px 15px 40px;
+                padding: 100px 15px 40px;
                 margin-top: 0;
             }
 
-            .hero-content h1 {
-                font-size: 2.1rem;
+            .hero-text-content h1 {
+                font-size: 2.2rem;
                 line-height: 1.15;
             }
 
-            .hero-content p {
+            .hero-text-content p {
                 font-size: 1rem;
             }
 
@@ -1059,11 +1212,11 @@
 
             .card {
                 padding: 22px;
-                border-radius: 12px;
+                border-radius: var(--radius-md);
             }
 
             .contact-wrapper {
-                padding: 20px 15px;
+                padding: 24px 16px;
                 gap: 30px;
             }
 
@@ -1074,7 +1227,8 @@
 
             .contact-item i {
                 font-size: 1.3rem;
-                width: 25px;
+                width: 30px;
+                height: 30px;
             }
 
             .contact-info h3 {
@@ -1093,9 +1247,149 @@
             }
 
             .social-links a {
-                width: 40px;
-                height: 40px;
+                width: 42px;
+                height: 42px;
                 font-size: 1.2rem;
+            }
+        }
+
+        /* ==========================================================================
+           Skeleton Loading Effect Styles
+           ========================================================================== */
+        .skeleton {
+            background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--border-color) 50%, var(--bg-elevated) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.6s infinite linear;
+            border-radius: 6px;
+            display: inline-block;
+            pointer-events: none;
+            border: none !important;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .skeleton-title {
+            height: 3.5rem;
+            width: 75%;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+
+        .skeleton-subtitle {
+            height: 1.8rem;
+            width: 45%;
+            margin-bottom: 25px;
+            border-radius: 6px;
+        }
+
+        .skeleton-text {
+            height: 1.1rem;
+            margin-bottom: 12px;
+            border-radius: 4px;
+            display: block;
+        }
+
+        .skeleton-card-title {
+            height: 1.5rem;
+            width: 55%;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .skeleton-card-item {
+            height: 1.1rem;
+            width: 80%;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+
+        .skeleton-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .skeleton-badge {
+            height: 28px;
+            width: 70px;
+            border-radius: 20px;
+        }
+
+        .skeleton-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+        }
+
+        .skeleton-timeline-date {
+            height: 1rem;
+            width: 100px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .skeleton-timeline-title {
+            height: 1.4rem;
+            width: 220px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+        }
+
+        .skeleton-timeline-subtitle {
+            height: 1.1rem;
+            width: 160px;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+
+        .skeleton-inline {
+            height: 1.1rem;
+            border-radius: 4px;
+            vertical-align: middle;
+            display: inline-block;
+        }
+
+        /* --- Keyframe Entrance Animations --- */
+        @keyframes heroTextEntry {
+            from {
+                opacity: 0;
+                transform: translate(-40px, -20px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(0, -20px);
+            }
+        }
+
+        @keyframes heroImgEntry {
+            from {
+                opacity: 0;
+                transform: translate(40px, -50px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(0, -50px);
+            }
+        }
+
+        @keyframes navSlideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
             }
         }
     </style>
@@ -1126,24 +1420,31 @@
         </div>
     </nav>
 
-    <!-- Loading Spinner -->
-    <div id="loader">
-        <div class="loader-spinner"></div>
-        <p class="loader-text">Loading portfolio data...</p>
-    </div>
+    <!-- Background glow blobs -->
+    <div class="bg-blob blob-1"></div>
+    <div class="bg-blob blob-2"></div>
+    <div class="bg-blob blob-3"></div>
 
     <!-- Error Banner -->
     <div id="error-banner"></div>
 
     <header id="home">
-        <div class="container hero-content hidden">
-            <img src="assets/images/profile.jpg" alt="Profile" class="profile-img">
-            <h1>Loading...</h1>
-            <h2></h2>
-            <p></p>
-            <div class="hero-buttons">
-                <a href="#projects" class="btn btn-primary">View Projects</a>
-                <a href="#contact" class="btn btn-outline">Contact Me</a>
+        <div class="container hero-content">
+            <div class="profile-img-container">
+                <img src="assets/images/profile.jpg" alt="Profile" class="profile-img">
+            </div>
+            <div class="hero-text-content">
+                <h1><span class="skeleton skeleton-title"></span></h1>
+                <h2><span class="skeleton skeleton-subtitle"></span></h2>
+                <p>
+                    <span class="skeleton skeleton-text" style="width: 90%;"></span>
+                    <span class="skeleton skeleton-text" style="width: 80%;"></span>
+                    <span class="skeleton skeleton-text" style="width: 60%;"></span>
+                </p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">View Projects</a>
+                    <a href="#contact" class="btn btn-outline">Contact Me</a>
+                </div>
             </div>
         </div>
     </header>
@@ -1151,42 +1452,121 @@
     <section id="about" class="container hidden">
         <h2 class="section-title">About Me</h2>
         <div class="about-text">
-            <p>Loading...</p>
+            <p class="skeleton skeleton-text" style="width: 100%; height: 1.1rem;"></p>
+            <p class="skeleton skeleton-text" style="width: 95%; height: 1.1rem;"></p>
+            <p class="skeleton skeleton-text" style="width: 80%; height: 1.1rem;"></p>
         </div>
     </section>
 
     <section id="skills" class="container hidden">
         <h2 class="section-title">Skills & Tools</h2>
         <div class="grid-3">
-            <!-- Skills will be rendered dynamically -->
+            <div class="card skeleton-card">
+                <h3 class="skeleton skeleton-card-title"></h3>
+                <ul class="skill-list" style="margin-top: 15px;">
+                    <li class="skeleton skeleton-card-item" style="list-style: none;"></li>
+                    <li class="skeleton skeleton-card-item" style="list-style: none;"></li>
+                    <li class="skeleton skeleton-card-item" style="list-style: none;"></li>
+                </ul>
+            </div>
+            <div class="card skeleton-card">
+                <h3 class="skeleton skeleton-card-title"></h3>
+                <ul class="skill-list" style="margin-top: 15px;">
+                    <li class="skeleton skeleton-card-item" style="list-style: none;"></li>
+                    <li class="skeleton skeleton-card-item" style="list-style: none;"></li>
+                    <li class="skeleton skeleton-card-item" style="list-style: none;"></li>
+                </ul>
+            </div>
+            <div class="card skeleton-card">
+                <h3 class="skeleton skeleton-card-title"></h3>
+                <ul class="skill-list" style="margin-top: 15px;">
+                    <li class="skeleton skeleton-card-item" style="list-style: none;"></li>
+                    <li class="skeleton skeleton-card-item" style="list-style: none;"></li>
+                    <li class="skeleton skeleton-card-item" style="list-style: none;"></li>
+                </ul>
+            </div>
         </div>
     </section>
 
     <section id="services" class="container hidden">
         <h2 class="section-title">Services</h2>
         <div class="grid-3">
-            <!-- Services will be rendered dynamically -->
+            <div class="card service-card">
+                <div class="skeleton skeleton-icon"></div>
+                <h3 class="skeleton skeleton-card-title" style="margin: 0 auto 15px;"></h3>
+                <p class="skeleton skeleton-text" style="width: 80%; height: 1.1rem; margin: 0 auto 8px;"></p>
+                <p class="skeleton skeleton-text" style="width: 60%; height: 1.1rem; margin: 0 auto;"></p>
+            </div>
+            <div class="card service-card">
+                <div class="skeleton skeleton-icon"></div>
+                <h3 class="skeleton skeleton-card-title" style="margin: 0 auto 15px;"></h3>
+                <p class="skeleton skeleton-text" style="width: 80%; height: 1.1rem; margin: 0 auto 8px;"></p>
+                <p class="skeleton skeleton-text" style="width: 60%; height: 1.1rem; margin: 0 auto;"></p>
+            </div>
+            <div class="card service-card">
+                <div class="skeleton skeleton-icon"></div>
+                <h3 class="skeleton skeleton-card-title" style="margin: 0 auto 15px;"></h3>
+                <p class="skeleton skeleton-text" style="width: 80%; height: 1.1rem; margin: 0 auto 8px;"></p>
+                <p class="skeleton skeleton-text" style="width: 60%; height: 1.1rem; margin: 0 auto;"></p>
+            </div>
         </div>
     </section>
 
     <section id="projects" class="container hidden">
         <h2 class="section-title">Projects</h2>
         <div class="grid-2">
-            <!-- Projects will be rendered dynamically -->
+            <div class="card project-card">
+                <div class="skeleton skeleton-image"></div>
+                <h3 class="skeleton skeleton-card-title" style="width: 60%;"></h3>
+                <p class="skeleton skeleton-text" style="width: 90%; height: 1.1rem;"></p>
+                <p class="skeleton skeleton-text" style="width: 70%; height: 1.1rem;"></p>
+                <div style="display: flex; gap: 8px; margin-top: 15px;">
+                    <span class="skeleton skeleton-badge"></span>
+                    <span class="skeleton skeleton-badge"></span>
+                    <span class="skeleton skeleton-badge"></span>
+                </div>
+            </div>
+            <div class="card project-card">
+                <div class="skeleton skeleton-image"></div>
+                <h3 class="skeleton skeleton-card-title" style="width: 60%;"></h3>
+                <p class="skeleton skeleton-text" style="width: 90%; height: 1.1rem;"></p>
+                <p class="skeleton skeleton-text" style="width: 70%; height: 1.1rem;"></p>
+                <div style="display: flex; gap: 8px; margin-top: 15px;">
+                    <span class="skeleton skeleton-badge"></span>
+                    <span class="skeleton skeleton-badge"></span>
+                    <span class="skeleton skeleton-badge"></span>
+                </div>
+            </div>
         </div>
     </section>
 
     <section id="experience" class="container hidden">
         <h2 class="section-title">Experience</h2>
         <div class="card">
-            <!-- Experience will be rendered dynamically -->
+            <div class="timeline-item">
+                <div class="skeleton skeleton-timeline-date"></div>
+                <div class="skeleton skeleton-timeline-title"></div>
+                <div class="skeleton skeleton-timeline-subtitle"></div>
+                <p class="skeleton skeleton-text" style="width: 90%; height: 1.1rem; margin-top: 10px;"></p>
+            </div>
+            <div class="timeline-item" style="margin-top: 25px;">
+                <div class="skeleton skeleton-timeline-date"></div>
+                <div class="skeleton skeleton-timeline-title"></div>
+                <div class="skeleton skeleton-timeline-subtitle"></div>
+                <p class="skeleton skeleton-text" style="width: 80%; height: 1.1rem; margin-top: 10px;"></p>
+            </div>
         </div>
     </section>
 
     <section id="education" class="container hidden">
         <h2 class="section-title">Education</h2>
         <div class="card">
-            <!-- Education will be rendered dynamically -->
+            <div class="timeline-item">
+                <div class="skeleton skeleton-timeline-date"></div>
+                <div class="skeleton skeleton-timeline-title"></div>
+                <div class="skeleton skeleton-timeline-subtitle"></div>
+                <p class="skeleton skeleton-text" style="width: 90%; height: 1.1rem; margin-top: 10px;"></p>
+            </div>
         </div>
     </section>
 
@@ -1201,15 +1581,17 @@
 
                 <div class="contact-item">
                     <i class="fa-solid fa-phone"></i>
-                    <span>Loading...</span>
+                    <span><span class="skeleton skeleton-inline" style="width: 120px; height: 1.1rem;"></span></span>
                 </div>
                 <div class="contact-item">
                     <i class="fa-solid fa-envelope"></i>
-                    <a href="mailto:">Loading...</a>
+                    <span><span class="skeleton skeleton-inline" style="width: 180px; height: 1.1rem;"></span></span>
                 </div>
 
                 <div class="social-links">
-                    <!-- Social links will be rendered dynamically -->
+                    <span class="skeleton" style="width: 45px; height: 45px; border-radius: 50%;"></span>
+                    <span class="skeleton" style="width: 45px; height: 45px; border-radius: 50%;"></span>
+                    <span class="skeleton" style="width: 45px; height: 45px; border-radius: 50%;"></span>
                 </div>
             </div>
             <form action="https://formspree.io/f/xjgaolnd" method="POST" class="contact-form">

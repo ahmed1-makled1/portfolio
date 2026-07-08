@@ -1,0 +1,71 @@
+/* ==========================================================================
+   Ahmed Makled - Theme Variables
+   Modify this file to easily change colors, gradients, and styling.
+   ========================================================================== */
+
+:root {
+    /* Brand Colors */
+    --primary: #4f46e5;            /* Modern Indigo */
+    --primary-hover: #4338ca;      /* Deep Indigo */
+    --primary-rgb: 79, 70, 229;    /* RGB format for translucent shadow effects */
+    --accent: #06b6d4;             /* Accent color (Cyan) */
+    
+    /* Backgrounds */
+    --bg-main: #f8fafc;            /* Solid main background fallback */
+    --bg-gradient: linear-gradient(135deg, #f0f4ff 0%, #f8fafc 50%, #eef2ff 100%);
+    --bg-surface: rgba(255, 255, 255, 0.75); /* Glassmorphism surface */
+    --bg-elevated: rgba(241, 245, 249, 0.85); /* Inner cards, lists */
+    
+    /* Text Colors */
+    --text-main: #0f172a;          /* Slate 900 */
+    --text-muted: #64748b;         /* Slate 500 */
+    
+    /* Borders & Outlines */
+    --border-color: rgba(226, 232, 240, 0.8); /* Slate 200 */
+    
+    /* Shadows */
+    --shadow-sm: 0 4px 20px rgba(79, 70, 229, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
+    --shadow-lg: 0 20px 40px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(0, 0, 0, 0.02);
+    
+    /* Accent Gradients (Used for headers, titles and glowing effects) */
+    --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+    --bg-blob-color-1: rgba(99, 102, 241, 0.12); /* Blob colors for light mode */
+    --bg-blob-color-2: rgba(6, 182, 212, 0.10);
+    
+    /* Global Transitions & Layouts */
+    --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+}
+
+/* --- Dark Mode Override --- */
+.dark-mode {
+    /* Brand Colors */
+    --primary: #818cf8;            /* Light Indigo */
+    --primary-hover: #a5b4fc;      /* Very Light Indigo */
+    --primary-rgb: 129, 140, 248;
+    --accent: #22d3ee;             /* Accent color (Cyan) */
+    
+    /* Backgrounds */
+    --bg-main: #07090e;            /* Solid main background fallback */
+    --bg-gradient: linear-gradient(135deg, #090d16 0%, #05070c 100%);
+    --bg-surface: rgba(15, 23, 42, 0.7);  /* Dark glassmorphism surface */
+    --bg-elevated: rgba(30, 41, 59, 0.75); /* Slate 800 */
+    
+    /* Text Colors */
+    --text-main: #f8fafc;          /* Slate 50 */
+    --text-muted: #94a3b8;         /* Slate 400 */
+    
+    /* Borders & Outlines */
+    --border-color: rgba(51, 65, 85, 0.4);  /* Slate 700 */
+    
+    /* Shadows */
+    --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.25);
+    --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.45);
+    
+    /* Accent Gradients */
+    --accent-gradient: linear-gradient(135deg, #818cf8 0%, #22d3ee 100%);
+    --bg-blob-color-1: rgba(129, 140, 248, 0.08); /* Blob colors for dark mode */
+    --bg-blob-color-2: rgba(34, 211, 238, 0.06);
+}

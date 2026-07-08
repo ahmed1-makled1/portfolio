@@ -651,6 +651,7 @@ const Renderers = (() => {
         renderProjects,
         renderCertificates,
         renderFreelancePlatforms,
-        renderContact
+        renderContact,
+        initScrollAnimations
     };
 })();

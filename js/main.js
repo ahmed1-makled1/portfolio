@@ -10,6 +10,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Initialize dark mode
     initDarkMode();
 
+    // Initialize scroll animations immediately so skeletons are observed
+    if (typeof Renderers !== 'undefined' && Renderers.initScrollAnimations) {
+        Renderers.initScrollAnimations();
+    }
+
     // Load data and render content
     try {
         console.log('Starting data load...');

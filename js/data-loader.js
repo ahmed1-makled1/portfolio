@@ -128,8 +128,6 @@ const DataLoader = (() => {
      */
     function showLoadingState() {
         document.body.classList.add('loading');
-        const loader = document.getElementById('loader');
-        if (loader) loader.style.display = 'flex';
     }
 
     /**
@@ -137,8 +135,6 @@ const DataLoader = (() => {
      */
     function hideLoadingState() {
         document.body.classList.remove('loading');
-        const loader = document.getElementById('loader');
-        if (loader) loader.style.display = 'none';
     }
 
     /**
