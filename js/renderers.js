@@ -235,9 +235,14 @@ const Renderers = (() => {
                         <div class="project-card-front">
                             <div class="card project-card">
                                 ${project.FrontImages ? `
-                                    <div class="project-image-slider">
-                                        <div class="slider-track">
-                                            ${project.FrontImages.split(',').map(img => `<img src="${img.trim()}" alt="${project.Name}" class="project-image">`).join('')}
+                                    <div class="project-image-container" data-images="${project.FrontImages}" data-title="${project.Name}">
+                                        <img src="${project.FrontImages.split(',')[0].trim()}" alt="${project.Name}" class="project-image">
+                                        <div class="project-image-overlay">
+                                            <i class="fa-solid fa-search-plus"></i>
+                                            <span style="font-size: 1.2rem; font-weight: 600;">View Gallery</span>
+                                        </div>
+                                        <div class="gallery-badge">
+                                            <i class="fa-solid fa-images"></i> Gallery
                                         </div>
                                     </div>
                                 ` : ''}
@@ -268,47 +273,27 @@ const Renderers = (() => {
         }).join('');
         // Add flip functionality
         initFlipCards();
-        initImageSliders();
+        initProjectGallery();
     }
 
     /**
-     * Initialize image sliders for projects
+     * Initialize project gallery clicking
      */
-    function initImageSliders() {
-        const sliders = document.querySelectorAll('.project-image-slider');
-        sliders.forEach(slider => {
-            const track = slider.querySelector('.slider-track');
-            const images = track.querySelectorAll('.project-image');
-            if (images.length <= 1) return; // No need to slide if 1 or 0 images
-
-            let currentIndex = 0;
-            let intervalId = null;
-
-            const nextImage = () => {
-                currentIndex = (currentIndex + 1) % images.length;
-                track.style.transform = `translateX(-${currentIndex * 100}%)`;
-            };
-
-            const startSlide = () => {
-                if (intervalId) return;
-                intervalId = setInterval(nextImage, 1500);
-            };
-
-            const stopSlide = () => {
-                if (intervalId) {
-                    clearInterval(intervalId);
-                    intervalId = null;
-                }
-            };
-
-            slider.addEventListener('mouseenter', startSlide);
-            slider.addEventListener('mouseleave', stopSlide);
-            slider.addEventListener('click', (e) => {
+    function initProjectGallery() {
+        const containers = document.querySelectorAll('.project-image-container');
+        containers.forEach(container => {
+            container.addEventListener('click', (e) => {
                 e.stopPropagation(); // Prevent card flip
-                nextImage();
+                const imagesStr = container.dataset.images;
+                if (!imagesStr) return;
+                const images = imagesStr.split(',').map(s => s.trim());
+                const title = container.dataset.title || '';
+                openLightboxGallery(images, 0, title);
             });
         });
     }
+
+
 
     /**
      * Initialize flip card functionality
@@ -375,8 +360,11 @@ const Renderers = (() => {
         initLightbox();
     }
 
+    let currentLightboxImages = [];
+    let currentLightboxIndex = 0;
+
     /**
-     * Initialize Lightbox for certificates
+     * Initialize Lightbox for certificates and projects
      */
     function initLightbox() {
         // Create lightbox if it doesn't exist
@@ -389,6 +377,8 @@ const Renderers = (() => {
                     <button class="lightbox-close">&times;</button>
                     <button class="lightbox-zoom-in"><i class="fa-solid fa-search-plus"></i></button>
                     <button class="lightbox-zoom-out"><i class="fa-solid fa-search-minus"></i></button>
+                    <button class="lightbox-prev" style="display: none;"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="lightbox-next" style="display: none;"><i class="fa-solid fa-chevron-right"></i></button>
                     <img src="" alt="" class="lightbox-image">
                     <div class="lightbox-caption"></div>
                 </div>
@@ -419,10 +409,22 @@ const Renderers = (() => {
                 img.style.transform = `scale(${zoomLevel})`;
             }
 
+            // Gallery navigation
+            lightbox.querySelector('.lightbox-prev').addEventListener('click', (e) => {
+                e.stopPropagation();
+                navigateLightbox(-1);
+            });
+            lightbox.querySelector('.lightbox-next').addEventListener('click', (e) => {
+                e.stopPropagation();
+                navigateLightbox(1);
+            });
+
             // Keyboard controls
             document.addEventListener('keydown', (e) => {
                 if (lightbox.style.display === 'flex') {
                     if (e.key === 'Escape') closeLightbox();
+                    if (e.key === 'ArrowLeft') navigateLightbox(-1);
+                    if (e.key === 'ArrowRight') navigateLightbox(1);
                     if (e.key === '+') {
                         zoomLevel = Math.min(zoomLevel + 0.5, 3);
                         updateZoom();
@@ -440,26 +442,54 @@ const Renderers = (() => {
         certificateCards.forEach(card => {
             card.addEventListener('click', () => {
                 const imagePath = card.dataset.image;
-                const title = card.dataset.title;
+                const title = card.dataset.title || '';
                 if (imagePath) {
-                    openLightbox(imagePath, title);
+                    openLightboxGallery([imagePath], 0, title);
                 }
             });
         });
     }
 
+    function navigateLightbox(direction) {
+        if (currentLightboxImages.length <= 1) return;
+        currentLightboxIndex = (currentLightboxIndex + direction + currentLightboxImages.length) % currentLightboxImages.length;
+        const lightbox = document.getElementById('lightbox');
+        const img = lightbox.querySelector('.lightbox-image');
+        img.src = currentLightboxImages[currentLightboxIndex];
+        img.style.transform = 'scale(1)'; // reset zoom on navigation
+        // Optional: update caption to show index e.g., "Image 2 of 3"
+        // const caption = lightbox.querySelector('.lightbox-caption');
+    }
+
     /**
-     * Open lightbox
-     * @param {string} imageSrc - Image source
+     * Open lightbox with a gallery of images
+     * @param {Array} images - Array of image URLs
+     * @param {number} startIndex - Initial image index
      * @param {string} caption - Image caption
      */
-    function openLightbox(imageSrc, caption) {
+    function openLightboxGallery(images, startIndex, caption) {
+        if (!images || images.length === 0) return;
+        currentLightboxImages = images;
+        currentLightboxIndex = startIndex || 0;
+
         const lightbox = document.getElementById('lightbox');
         const lightboxImage = lightbox.querySelector('.lightbox-image');
         const lightboxCaption = lightbox.querySelector('.lightbox-caption');
+        const prevBtn = lightbox.querySelector('.lightbox-prev');
+        const nextBtn = lightbox.querySelector('.lightbox-next');
 
-        lightboxImage.src = imageSrc;
+        lightboxImage.src = currentLightboxImages[currentLightboxIndex];
         lightboxCaption.textContent = caption;
+        
+        // Show/hide navigation buttons
+        if (images.length > 1) {
+            prevBtn.style.display = 'flex';
+            nextBtn.style.display = 'flex';
+        } else {
+            prevBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+        }
+
         lightbox.style.display = 'flex';
         document.body.style.overflow = 'hidden';
 
