@@ -2,10 +2,15 @@
 
 A fully data-driven, reusable portfolio template powered by SheetJS. Change Excel files to completely update the site without touching any source code.
 
+# Portfolio Link
+
+https://ahmed1-makled1.github.io/portfolio/
+
 ## 🚀 Features
 
-- **Data-Driven Architecture**: All content loaded from Excel/CSV files
+- **Data-Driven Architecture**: All content loaded from Excel files
 - **3D Flip Card Projects**: Interactive project cards with smooth animations
+- **Project Galleries**: Click on any project image to open a gallery of multiple screenshots
 - **Certificate Lightbox**: Modal with zoom controls for certificates
 - **Freelance Platforms Section**: Showcase your freelance profiles
 - **Dark Mode Support**: Native dark/light theme toggle
@@ -23,7 +28,11 @@ portfolio/
 │   ├── cv/              # Resume/CV files
 │   ├── certificates/    # Certificate images
 │   └── projects/        # Project screenshots
-├── data/                # Excel/CSV data files
+├── css/
+│   ├── style.css        # Main stylesheet
+│   ├── layout.css       # Layouts and grids
+│   └── theme.css        # Theme variables and colors
+├── data/                # Excel data files
 │   ├── profile.xlsx
 │   ├── skills.xlsx
 │   ├── experience.xlsx
@@ -42,13 +51,14 @@ portfolio/
 
 ## 📊 Excel Data Schemas
 
-### profile.csv
+### profile.xlsx
 Personal information and contact details.
 
 | Column | Description | Example |
 |--------|-------------|---------|
 | Name | Full name | Ahmed Makled |
 | Title | Job title | Flutter Mobile Application Developer |
+| Description | Short tagline/description | Mobile App Developer |
 | AvatarPath | Path to profile image | assets/images/profile.jpg |
 | About | About description | I'm a professional Flutter Developer... |
 | Email | Email address | ahmed@example.com |
@@ -59,7 +69,7 @@ Personal information and contact details.
 | CVVersion | CV version | v1.0 |
 | CVLastUpdated | Last updated date | 2026-01-15 |
 
-### skills.csv
+### skills.xlsx
 Skills grouped by categories.
 
 | Column | Description | Example |
@@ -67,7 +77,7 @@ Skills grouped by categories.
 | Category | Skill category | Core Skills |
 | SkillName | Individual skill | Flutter & Dart |
 
-### experience.csv
+### experience.xlsx
 Work experience timeline.
 
 | Column | Description | Example |
@@ -79,17 +89,17 @@ Work experience timeline.
 | Description | Job description | Intensive training program... |
 | LogoPath | Company logo path (optional) | assets/images/company-logo.png |
 
-### education.csv
+### education.xlsx
 Education timeline.
 
 | Column | Description | Example |
 |--------|-------------|---------|
 | Degree | Degree name | B.Sc. of Information Technology |
-| Institution | Institution name | Damietta University |
 | Dates | Date range | 2022 – 2026 |
 | Description | Description | Bachelor's degree focusing on... |
+| Institution | Institution name | Damietta University |
 
-### services.csv
+### services.xlsx
 Services offered.
 
 | Column | Description | Example |
@@ -98,7 +108,7 @@ Services offered.
 | IconClass | Font Awesome icon class | fa-solid fa-mobile-screen-button |
 | Description | Service description | Design intuitive mobile interfaces... |
 
-### freelance-platforms.csv
+### freelance-platforms.xlsx
 Freelance platform profiles.
 
 | Column | Description | Example |
@@ -108,7 +118,7 @@ Freelance platform profiles.
 | ProfileURL | Profile URL | https://www.upwork.com/freelancers/~ |
 | Description | Description | Professional freelance profile... |
 
-### certificates.csv
+### certificates.xlsx
 Certificates and certifications.
 
 | Column | Description | Example |
@@ -119,7 +129,7 @@ Certificates and certifications.
 | Description | Description | Comprehensive Flutter course... |
 | ImagePath | Certificate image path | assets/certificates/flutter-cert.png |
 
-### social-links.csv
+### social-links.xlsx
 Social media links.
 
 | Column | Description | Example |
@@ -128,8 +138,8 @@ Social media links.
 | URL | Profile URL | https://linkedin.com/in/username |
 | IconClass | Font Awesome icon class | fa-brands fa-linkedin-in |
 
-### projects.csv
-Project portfolio with flip cards.
+### projects.xlsx
+Project portfolio with flip cards and image galleries.
 
 | Column | Description | Example |
 |--------|-------------|---------|
@@ -137,7 +147,7 @@ Project portfolio with flip cards.
 | ShortDesc | Short description | Search any city worldwide... |
 | LongDesc | Detailed description | A comprehensive weather app... |
 | TechStack | Technologies (comma-separated) | Flutter, API Integration, Provider |
-| FrontImage | Project image path | assets/projects/weather-app.png |
+| FrontImages | Project images (comma-separated) | assets/projects/img1.png, assets/projects/img2.png |
 | Features | Features (comma-separated) | Search cities,7-day forecast,Clean UI |
 | GitHubURL | GitHub repository URL | https://github.com/user/repo |
 | LiveURL | Live demo URL | https://demo.example.com |
@@ -173,46 +183,53 @@ Project portfolio with flip cards.
 2. **Local Development**
    - Use a local server (e.g., `python -m http.server` or VS Code Live Server)
    - Open `index.html` in your browser
-   - The portfolio will load data from Excel files first, and from CSV files if needed
+   - The portfolio will load data from Excel files automatically
 
 3. **Customization**
-   - Edit CSS variables in `index.html` to change colors
-   - Modify `renderers.js` to change rendering logic
+   - Edit CSS variables in `css/theme.css` to change colors
+   - Modify `js/renderers.js` to change rendering logic
    - Add new sections by extending the data files and renderers
 
 ## 🎨 Customization Guide
 
 ### Changing Colors
 
-Edit the CSS variables in `index.html`:
+Edit the CSS variables in `css/theme.css` to change colors, gradients, and backgrounds for both Light and Dark modes:
 
 ```css
 :root {
-   --bg-main: #f6f9fc;        /* Main background */
-   --bg-surface: #ffffff;        /* Card/surface background */
-   --primary: #2563eb;        /* Primary accent color */
-   --primary-hover: #1d4ed8;        /* Hover color */
-   --text-main: #0f172a;         /* Main text color */
-   --text-muted: #475569;        /* Muted text color */
-   --border-color: #dbe4f0;         /* Border color */
+    /* Brand Colors */
+    --primary: #4f46e5;            /* Modern Indigo */
+    --primary-hover: #4338ca;      /* Deep Indigo */
+    --accent: #06b6d4;             /* Accent color (Cyan) */
+    
+    /* Backgrounds */
+    --bg-main: #f8fafc;            /* Solid main background fallback */
+    /* ... */
+}
+
+/* --- Dark Mode Override --- */
+.dark-mode {
+    --primary: #818cf8;            /* Light Indigo */
+    /* ... */
 }
 ```
 
 ### Adding New Skills Categories
 
-Simply add a new category name in the `skills.csv` file under the `Category` column. The system will automatically group and render skills by category.
+Simply add a new category name in the `skills.xlsx` file under the `Category` column. The system will automatically group and render skills by category.
 
 ### Adding New Projects
 
-1. Add a new row to `projects.csv`
+1. Add a new row to `projects.xlsx`
 2. Fill in the required columns
-3. Add your project image to `/assets/projects/`
-4. Update the `FrontImage` path in the CSV
-5. The project card will appear automatically
+3. Add your project images to `/assets/projects/`
+4. Update the `FrontImages` path in the Excel file (separate multiple images with a comma)
+5. The project card and image gallery will appear automatically
 
 ### Adding Social Links
 
-Add a new row to `social-links.csv` with:
+Add a new row to `social-links.xlsx` with:
 - PlatformName: Name of the platform
 - URL: Your profile URL
 - IconClass: Font Awesome icon class (find icons at https://fontawesome.com/icons)
@@ -225,13 +242,15 @@ Special handling:
 
 ### 3D Flip Card Projects
 
-- **Front Side**: Shows project image, name, short description, and tech stack badges
-- **Back Side**: Click to flip and see detailed description, features list, and action buttons
+- **Front Side**: Shows project cover image, name, short description, and tech stack badges
+- **Image Gallery**: Click on the project image to open a full-screen gallery with navigation arrows
+- **Back Side**: Click the card to flip and see detailed description, features list, and action buttons
 - **Conditional Buttons**: Only shows buttons for links that exist (GitHub, Live Demo, App Stores, Docs)
 
-### Certificate Lightbox
+### Lightbox (Certificates & Project Galleries)
 
-- Click any certificate card to open a full-size modal
+- Click any certificate card or project image to open a full-size modal
+- Use left/right arrows to navigate between images in a gallery
 - Use zoom in/out buttons or keyboard (+/-) to zoom
 - Press Escape or click outside to close
 - Backdrop blur effect for modern look
@@ -239,7 +258,7 @@ Special handling:
 ### CV Download
 
 - CV download button appears in Hero and Contact sections
-- Only renders if `CVPath` is specified in `profile.csv`
+- Only renders if `CVPath` is specified in `profile.xlsx`
 - Supports PDF, DOCX, and other document formats
 
 ### Dark Mode
@@ -252,14 +271,14 @@ Special handling:
 
 ### Data Not Loading
 
-- Ensure all CSV files are in the `/data` folder
+- Ensure all `.xlsx` files are in the `/data` folder
 - Check browser console for errors (F12)
-- Verify file paths in CSV files match actual asset locations
+- Verify file paths in Excel files match actual asset locations
 - Use a local server (not file:// protocol) for proper data loading
 
 ### Images Not Showing
 
-- Check image paths in CSV files are correct
+- Check image paths in Excel files are correct
 - Ensure images exist in the correct `/assets/` subfolder
 - Verify image file names match exactly (case-sensitive)
 
@@ -268,17 +287,6 @@ Special handling:
 - Ensure JavaScript is enabled
 - Check browser console for errors
 - Verify `renderers.js` is loaded correctly
-
-## 📄 File Format Notes
-
-### CSV vs Excel
-
-The template now uses Excel (.xlsx) files by default because:
-- Easier to edit in Excel
-- Better support for columns and formatting
-- Works smoothly with spreadsheets and Excel
-
-The loader also remains compatible with CSV files if you still prefer them.
 
 ## 🚀 Deployment Options
 
@@ -320,16 +328,16 @@ For issues or questions:
 
 ## 🎯 Best Practices
 
-1. **Keep CSV files organized**: Use consistent formatting
+1. **Keep Excel files organized**: Use consistent formatting
 2. **Optimize images**: Compress images before adding to assets
 3. **Test locally**: Use a local server before deploying
-4. **Backup data**: Keep copies of your CSV files
+4. **Backup data**: Keep copies of your `.xlsx` files
 5. **Version control**: Use Git to track changes if you're a developer
 
 ## 🔄 Updating Content
 
 To update any content:
-1. Edit the corresponding CSV file
+1. Edit the corresponding `.xlsx` file in the `/data` folder
 2. Save the file
 3. Refresh your browser
 4. Changes appear instantly (no code changes needed!)
@@ -346,7 +354,7 @@ The template includes error handling:
 
 ### Responsive Grids
 - Skills: 3-column grid (auto-adjusts)
-- Projects: 2-column grid (auto-adjusts)
+- Projects: 3-column grid (auto-adjusts)
 - Services: 3-column grid (auto-adjusts)
 - Certificates: 3-column grid (auto-adjusts)
 - Freelance Platforms: 3-column grid (auto-adjusts)
