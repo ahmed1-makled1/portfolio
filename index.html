@@ -970,7 +970,7 @@
             position: absolute;
             bottom: 15px;
             right: 15px;
-            background: rgba(var(--bg-elevated-rgb, 15, 23, 42), 0.85);
+            background: var(--bg-elevated);
             color: var(--primary);
             padding: 8px 14px;
             border-radius: 20px;
@@ -1570,11 +1570,13 @@
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#experience">Experience</a></li>
                 <li><a href="#education">Education</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#certificates">Certificates</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#freelance">Freelance</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
@@ -1608,7 +1610,6 @@
             </div>
         </div>
     </header>
-
     <section id="about" class="container hidden">
         <h2 class="section-title">About Me</h2>
         <div class="about-text">
@@ -1618,8 +1619,20 @@
         </div>
     </section>
 
+    <section id="education" class="container hidden">
+        <h2 class="section-title">Education</h2>
+        <div class="card">
+            <div class="timeline-item">
+                <div class="skeleton skeleton-timeline-date"></div>
+                <div class="skeleton skeleton-timeline-title"></div>
+                <div class="skeleton skeleton-timeline-subtitle"></div>
+                <p class="skeleton skeleton-text" style="width: 90%; height: 1.1rem; margin-top: 10px;"></p>
+            </div>
+        </div>
+    </section>
+
     <section id="skills" class="container hidden">
-        <h2 class="section-title">Skills & Tools</h2>
+        <h2 class="section-title">Skills &amp; Tools</h2>
         <div class="grid-3">
             <div class="card skeleton-card">
                 <h3 class="skeleton skeleton-card-title"></h3>
@@ -1648,26 +1661,20 @@
         </div>
     </section>
 
-    <section id="services" class="container hidden">
-        <h2 class="section-title">Services</h2>
-        <div class="grid-3">
-            <div class="card service-card">
-                <div class="skeleton skeleton-icon"></div>
-                <h3 class="skeleton skeleton-card-title" style="margin: 0 auto 15px;"></h3>
-                <p class="skeleton skeleton-text" style="width: 80%; height: 1.1rem; margin: 0 auto 8px;"></p>
-                <p class="skeleton skeleton-text" style="width: 60%; height: 1.1rem; margin: 0 auto;"></p>
+    <section id="experience" class="container hidden">
+        <h2 class="section-title">Experience</h2>
+        <div class="card">
+            <div class="timeline-item">
+                <div class="skeleton skeleton-timeline-date"></div>
+                <div class="skeleton skeleton-timeline-title"></div>
+                <div class="skeleton skeleton-timeline-subtitle"></div>
+                <p class="skeleton skeleton-text" style="width: 90%; height: 1.1rem; margin-top: 10px;"></p>
             </div>
-            <div class="card service-card">
-                <div class="skeleton skeleton-icon"></div>
-                <h3 class="skeleton skeleton-card-title" style="margin: 0 auto 15px;"></h3>
-                <p class="skeleton skeleton-text" style="width: 80%; height: 1.1rem; margin: 0 auto 8px;"></p>
-                <p class="skeleton skeleton-text" style="width: 60%; height: 1.1rem; margin: 0 auto;"></p>
-            </div>
-            <div class="card service-card">
-                <div class="skeleton skeleton-icon"></div>
-                <h3 class="skeleton skeleton-card-title" style="margin: 0 auto 15px;"></h3>
-                <p class="skeleton skeleton-text" style="width: 80%; height: 1.1rem; margin: 0 auto 8px;"></p>
-                <p class="skeleton skeleton-text" style="width: 60%; height: 1.1rem; margin: 0 auto;"></p>
+            <div class="timeline-item" style="margin-top: 25px;">
+                <div class="skeleton skeleton-timeline-date"></div>
+                <div class="skeleton skeleton-timeline-title"></div>
+                <div class="skeleton skeleton-timeline-subtitle"></div>
+                <p class="skeleton skeleton-text" style="width: 80%; height: 1.1rem; margin-top: 10px;"></p>
             </div>
         </div>
     </section>
@@ -1700,32 +1707,26 @@
         </div>
     </section>
 
-    <section id="experience" class="container hidden">
-        <h2 class="section-title">Experience</h2>
-        <div class="card">
-            <div class="timeline-item">
-                <div class="skeleton skeleton-timeline-date"></div>
-                <div class="skeleton skeleton-timeline-title"></div>
-                <div class="skeleton skeleton-timeline-subtitle"></div>
-                <p class="skeleton skeleton-text" style="width: 90%; height: 1.1rem; margin-top: 10px;"></p>
+    <section id="services" class="container hidden">
+        <h2 class="section-title">Services</h2>
+        <div class="grid-3">
+            <div class="card service-card">
+                <div class="skeleton skeleton-icon"></div>
+                <h3 class="skeleton skeleton-card-title" style="margin: 0 auto 15px;"></h3>
+                <p class="skeleton skeleton-text" style="width: 80%; height: 1.1rem; margin: 0 auto 8px;"></p>
+                <p class="skeleton skeleton-text" style="width: 60%; height: 1.1rem; margin: 0 auto;"></p>
             </div>
-            <div class="timeline-item" style="margin-top: 25px;">
-                <div class="skeleton skeleton-timeline-date"></div>
-                <div class="skeleton skeleton-timeline-title"></div>
-                <div class="skeleton skeleton-timeline-subtitle"></div>
-                <p class="skeleton skeleton-text" style="width: 80%; height: 1.1rem; margin-top: 10px;"></p>
+            <div class="card service-card">
+                <div class="skeleton skeleton-icon"></div>
+                <h3 class="skeleton skeleton-card-title" style="margin: 0 auto 15px;"></h3>
+                <p class="skeleton skeleton-text" style="width: 80%; height: 1.1rem; margin: 0 auto 8px;"></p>
+                <p class="skeleton skeleton-text" style="width: 60%; height: 1.1rem; margin: 0 auto;"></p>
             </div>
-        </div>
-    </section>
-
-    <section id="education" class="container hidden">
-        <h2 class="section-title">Education</h2>
-        <div class="card">
-            <div class="timeline-item">
-                <div class="skeleton skeleton-timeline-date"></div>
-                <div class="skeleton skeleton-timeline-title"></div>
-                <div class="skeleton skeleton-timeline-subtitle"></div>
-                <p class="skeleton skeleton-text" style="width: 90%; height: 1.1rem; margin-top: 10px;"></p>
+            <div class="card service-card">
+                <div class="skeleton skeleton-icon"></div>
+                <h3 class="skeleton skeleton-card-title" style="margin: 0 auto 15px;"></h3>
+                <p class="skeleton skeleton-text" style="width: 80%; height: 1.1rem; margin: 0 auto 8px;"></p>
+                <p class="skeleton skeleton-text" style="width: 60%; height: 1.1rem; margin: 0 auto;"></p>
             </div>
         </div>
     </section>

@@ -516,7 +516,7 @@ const Renderers = (() => {
         // Check if freelance platforms section exists, if not create it
         let freelanceSection = document.getElementById('freelance');
         if (!freelanceSection) {
-            const anchorSection = document.getElementById('certificates') || document.getElementById('projects') || document.getElementById('services');
+            const anchorSection = document.getElementById('services') || document.getElementById('certificates') || document.getElementById('projects');
             const newSection = document.createElement('section');
             newSection.id = 'freelance';
             newSection.className = 'container hidden';
