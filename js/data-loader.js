@@ -43,7 +43,15 @@ const DataLoader = (() => {
                 const firstSheetName = workbook.SheetNames[0];
                 const worksheet = workbook.Sheets[firstSheetName];
                 const jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: false, defval: '' });
-                return jsonData;
+                // Trim column header keys to avoid issues with trailing spaces in Excel
+                const cleanedData = jsonData.map(row => {
+                    const cleanRow = {};
+                    for (const key of Object.keys(row)) {
+                        cleanRow[key.trim()] = row[key];
+                    }
+                    return cleanRow;
+                });
+                return cleanedData;
             }
 
             console.warn(`File not found: ${filename}`);

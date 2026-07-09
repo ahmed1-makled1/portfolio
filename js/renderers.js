@@ -31,10 +31,10 @@ const Renderers = (() => {
             titleElement.textContent = profile.Title;
         }
 
-        // Update about text
+        // Update description text in hero (uses Description field, not About)
         const aboutElement = document.querySelector('.hero-content p');
-        if (aboutElement && profile.About) {
-            aboutElement.textContent = profile.About;
+        if (aboutElement && profile.Description) {
+            aboutElement.textContent = profile.Description;
         }
 
         // Update logo
@@ -101,16 +101,16 @@ const Renderers = (() => {
         Object.entries(groupedSkills).forEach(([category, skillList]) => {
             const card = document.createElement('div');
             card.className = 'card';
-            
+
             const iconClass = getIconForCategory(category);
-            
+
             card.innerHTML = `
                 <h3><i class="${iconClass}"></i> ${category}</h3>
                 <ul class="skill-list">
                     ${skillList.map(skill => `<li>${skill}</li>`).join('')}
                 </ul>
             `;
-            
+
             skillsContainer.appendChild(card);
         });
     }
@@ -202,11 +202,11 @@ const Renderers = (() => {
         if (!projectsContainer) return;
 
         projectsContainer.innerHTML = projects.map(project => {
-            const techStackBadges = project.TechStack ? project.TechStack.split(',').map(tech => 
+            const techStackBadges = project.TechStack ? project.TechStack.split(',').map(tech =>
                 `<span class="tech-badge">${tech.trim()}</span>`
             ).join('') : '';
 
-            const featuresList = project.Features ? project.Features.split(',').map(feature => 
+            const featuresList = project.Features ? project.Features.split(',').map(feature =>
                 `<li>${feature.trim()}</li>`
             ).join('') : '';
 
@@ -234,7 +234,13 @@ const Renderers = (() => {
                         <!-- Front Side -->
                         <div class="project-card-front">
                             <div class="card project-card">
-                                ${project.FrontImage ? `<img src="${project.FrontImage}" alt="${project.Name}" class="project-image">` : ''}
+                                ${project.FrontImages ? `
+                                    <div class="project-image-slider">
+                                        <div class="slider-track">
+                                            ${project.FrontImages.split(',').map(img => `<img src="${img.trim()}" alt="${project.Name}" class="project-image">`).join('')}
+                                        </div>
+                                    </div>
+                                ` : ''}
                                 <h3><i class="fa-solid fa-folder-open"></i> ${project.Name}</h3>
                                 <p style="color: var(--text-muted); margin: 15px 0;">${project.ShortDesc}</p>
                                 <div class="tech-stack-badges">${techStackBadges}</div>
@@ -260,9 +266,48 @@ const Renderers = (() => {
                 </div>
             `;
         }).join('');
-
         // Add flip functionality
         initFlipCards();
+        initImageSliders();
+    }
+
+    /**
+     * Initialize image sliders for projects
+     */
+    function initImageSliders() {
+        const sliders = document.querySelectorAll('.project-image-slider');
+        sliders.forEach(slider => {
+            const track = slider.querySelector('.slider-track');
+            const images = track.querySelectorAll('.project-image');
+            if (images.length <= 1) return; // No need to slide if 1 or 0 images
+
+            let currentIndex = 0;
+            let intervalId = null;
+
+            const nextImage = () => {
+                currentIndex = (currentIndex + 1) % images.length;
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            };
+
+            const startSlide = () => {
+                if (intervalId) return;
+                intervalId = setInterval(nextImage, 1500);
+            };
+
+            const stopSlide = () => {
+                if (intervalId) {
+                    clearInterval(intervalId);
+                    intervalId = null;
+                }
+            };
+
+            slider.addEventListener('mouseenter', startSlide);
+            slider.addEventListener('mouseleave', stopSlide);
+            slider.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent card flip
+                nextImage();
+            });
+        });
     }
 
     /**
@@ -412,12 +457,12 @@ const Renderers = (() => {
         const lightbox = document.getElementById('lightbox');
         const lightboxImage = lightbox.querySelector('.lightbox-image');
         const lightboxCaption = lightbox.querySelector('.lightbox-caption');
-        
+
         lightboxImage.src = imageSrc;
         lightboxCaption.textContent = caption;
         lightbox.style.display = 'flex';
         document.body.style.overflow = 'hidden';
-        
+
         // Reset zoom
         lightboxImage.style.transform = 'scale(1)';
     }
@@ -479,7 +524,7 @@ const Renderers = (() => {
 
         // Update contact items
         const contactItems = contactInfo.querySelectorAll('.contact-item');
-        
+
         // Phone
         if (profile.Phone) {
             const phoneItem = contactItems[0];
@@ -532,7 +577,7 @@ const Renderers = (() => {
             socialLinksContainer.innerHTML = socialLinks.map(link => {
                 let href = link.URL;
                 let target = '_blank';
-                
+
                 // Special handling for WhatsApp
                 if (link.PlatformName.toLowerCase() === 'whatsapp') {
                     const number = link.URL.replace(/\D/g, '');
@@ -543,7 +588,7 @@ const Renderers = (() => {
                     href = `mailto:${link.URL}`;
                     target = '';
                 }
-                
+
                 return `
                     <a href="${href}" ${target ? `target="${target}"` : ''} aria-label="${link.PlatformName}">
                         <i class="${link.IconClass}"></i>

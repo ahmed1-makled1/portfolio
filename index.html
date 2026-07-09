@@ -897,6 +897,35 @@
             overflow-y: auto;
         }
 
+        .project-image-slider {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border-radius: var(--radius-sm);
+            margin-bottom: 20px;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .slider-track {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .project-image-slider .project-image {
+            min-width: 100%;
+            height: 100%;
+            object-fit: cover;
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+
+        .project-flip-card:hover .project-image-slider {
+            transform: scale(1.02);
+        }
+
         .project-image {
             width: 100%;
             height: 200px;
@@ -906,9 +935,7 @@
             transition: var(--transition);
         }
 
-        .project-flip-card:hover .project-image {
-            transform: scale(1.02);
-        }
+
 
         .tech-stack-badges {
             display: flex;
@@ -1585,7 +1612,7 @@
                 </div>
                 <div class="contact-item">
                     <i class="fa-solid fa-envelope"></i>
-                    <span><span class="skeleton skeleton-inline" style="width: 180px; height: 1.1rem;"></span></span>
+                    <a href="mailto:"><span class="skeleton skeleton-inline" style="width: 180px; height: 1.1rem;"></span></a>
                 </div>
 
                 <div class="social-links">
