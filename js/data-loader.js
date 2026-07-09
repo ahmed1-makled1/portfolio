@@ -47,7 +47,12 @@ const DataLoader = (() => {
                 const cleanedData = jsonData.map(row => {
                     const cleanRow = {};
                     for (const key of Object.keys(row)) {
-                        cleanRow[key.trim()] = row[key];
+                        let value = row[key];
+                        // Remove leading slash from asset paths to ensure correct relative linking
+                        if (typeof value === 'string' && value.startsWith('/assets/')) {
+                            value = value.substring(1);
+                        }
+                        cleanRow[key.trim()] = value;
                     }
                     return cleanRow;
                 });
