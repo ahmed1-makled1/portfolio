@@ -1,0 +1,28 @@
+# robots.txt file for Ahmed Makled Portfolio
+# Allow all search engines to crawl the site
+
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /css/
+Allow: /js/
+Allow: /assets/
+
+# Disallow private/sensitive areas (if any)
+Disallow: /ignore/
+
+# Crawl delay in seconds (to be respectful to server)
+Crawl-delay: 1
+
+# Specify sitemap location
+Sitemap: https://ahmed1-makled1.github.io/portfolio/sitemap.xml
+
+# Specific rules for popular search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
